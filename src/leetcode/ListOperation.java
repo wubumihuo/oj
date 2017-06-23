@@ -1,0 +1,21 @@
+package leetcode;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created by mazhi on 2016/10/25.
+ */
+public class ListOperation {
+    public List<String> fizzBuzz(int n) {
+        List<String> list = new ArrayList<>();
+        for(int i=1;i<=n;i++)
+        {
+            if(i%15==0) list.add("FizzBuzz");
+            else if (i%3==0) list.add("Fizz");
+            else if( i%5==0) list.add("Buzz");
+            else list.add(String.valueOf(i));
+        }
+        return list;
+    }
+}
