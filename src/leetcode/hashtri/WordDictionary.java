@@ -1,4 +1,4 @@
-package leetcode.字典樹;
+package leetcode.hashtri;
 
 /**
  * Created by mazhi on 2017/4/25.

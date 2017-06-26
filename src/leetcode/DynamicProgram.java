@@ -7,6 +7,44 @@ import java.util.List;
  * Created by mazhi on 2017/1/3.
  */
 public class DynamicProgram {
+    public static void main(String[] args) {
+        int arr[]={7,1,5,3,6,4};
+        System.out.println(maxProfit(arr));
+    }
+
+//NO.10 '.' Matches any single character.
+//'*' Matches zero or more of the preceding element.
+    public static boolean isMatch(String s, String p) {
+
+        if (s == null || p == null) {
+            return false;
+        }
+        boolean[][] dp = new boolean[s.length()+1][p.length()+1];
+        dp[0][0] = true;
+        for (int i = 0; i < p.length(); i++) {
+            if (p.charAt(i) == '*' && dp[0][i-1]) {
+                dp[0][i+1] = true;
+            }
+        }
+        for (int i = 0 ; i < s.length(); i++) {
+            for (int j = 0; j < p.length(); j++) {
+                if (p.charAt(j) == '.') {
+                    dp[i+1][j+1] = dp[i][j];
+                }
+                if (p.charAt(j) == s.charAt(i)) {
+                    dp[i+1][j+1] = dp[i][j];
+                }
+                if (p.charAt(j) == '*') {
+                    if (p.charAt(j-1) != s.charAt(i) && p.charAt(j-1) != '.') {
+                        dp[i+1][j+1] = dp[i+1][j-1];
+                    } else {
+                        dp[i+1][j+1] = (dp[i+1][j] || dp[i][j+1] || dp[i+1][j-1]);
+                    }
+                }
+            }
+        }
+        return dp[s.length()][p.length()];
+    }
     /*No:53. Maximum Subarray kadane算法
     * For example, given the array [-2,1,-3,4,-1,2,1,-5,4],
 the contiguous subarray [4,-1,2,1] has the largest sum = 6.
@@ -36,18 +74,40 @@ the contiguous subarray [4,-1,2,1] has the largest sum = 6.
         }
         return res_n;
     }
+    /*
+    * Given n, how many structurally unique BST's (binary search trees) that store values 1...n?
+    For example,
+    Given n = 3, there are a total of 5 unique BST's.*/
+    public int numTrees(int n) {
+        int [] dp = new int[n+1];
+        dp[0]= 1;
+        dp[1] = 1;
+        for(int level = 2; level <=n; level++)
+            for(int root = 1; root<=level; root++)
+                dp[level] += dp[level-root]*dp[root-1];
+        return dp[n];
+    }
     /*No:121. Best Time to Buy and Sell Stock
     只能操作一次
     *Input: [7, 1, 5, 3, 6, 4]
      Output: 5
      *  */
-    public int maxProfit(int[] prices) {
-        int max_sofar=0,max_here=0;
+    public static int maxProfit(int[] prices) {
+//        int max_sofar=0,max_here=0;
+//        for(int i=1;i<prices.length;i++){
+//            max_here=Math.max(0,max_here+= (prices[i]-prices[i-1]));
+//            max_sofar=Math.max(max_sofar,max_here);
+//        }
+//        return max_sofar;
+        if(prices.length<1) return 0;
+        int min=prices[0];
+        int max_profit =  0;
         for(int i=1;i<prices.length;i++){
-            max_here=Math.max(0,max_here+= (prices[i]-prices[i-1]));
-            max_sofar=Math.max(max_sofar,max_here);
+            max_profit = Math.max(max_profit,prices[i]-min);
+            min=Math.min(min,prices[i]);
         }
-        return max_sofar;
+        return max_profit;
+
 
     }
     /*No:152. Maximum Product Subarray

@@ -1,5 +1,6 @@
 package jianzhiOffer;
 
+import leetcode.BinaryTree;
 import leetcode.TreePerform;
 
 import java.util.*;
@@ -137,7 +138,28 @@ public class TreePreform
             right = VerifySquenceOfBST(Arrays.copyOfRange(sequence,i,sequence.length-1));
         return (left&&right);
     }
-
+//给定一颗二叉搜索树，请找出其中的第k大的结点。
+// 例如， 5 / \ 3 7 /\ /\ 2 4 6 8 中，
+// 按结点数值大小顺序第三个结点的值为4。
+    TreeNode KthNode(TreeNode pRoot, int k)
+    {
+        TreeNode node = pRoot;
+        Stack<TreeNode> s = new Stack<TreeNode>();
+        while (node != null || !s.empty()) {
+            while (node != null) {
+                s.push(node);
+                node = node.left;
+            }
+            if (!s.empty()) {
+                node = s.pop();
+                if(k==1)
+                return node;
+                else k--;
+                node = node.right;
+            }
+        }
+        return node;
+    }
 
     public static void main(String[] args) {
         int [] data = {5,7,6,9,11,10,8};
